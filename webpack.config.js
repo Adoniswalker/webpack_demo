@@ -1,11 +1,37 @@
 const path = require('path');
+const webWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const webpack = require('webpack');
 
+
+const htmlPlugin = new webWebpackPlugin({
+  template: "./src/index.html",
+  filename: "./index.html"
+})
 module.exports = {
-  entry: './src/index.js',
-  output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'),
+  mode: 'development',
+  devtool: 'inline-source-map',
+  entry: {
+    app: './src/index.js',
+    // print: './src/print.js'
   },
+  devServer:{
+    contentBase: './dist',
+    hot:true
+  },
+  resolve: {
+    extensions: ['*', '.js', '.jsx']
+  },
+  output: {
+    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
+  },
+  plugins :[
+    // new CleanWebpackPlugin(),
+      htmlPlugin,
+      new webpack.HotModuleReplacementPlugin()
+  ],
   module: {
       rules: [
           {
@@ -20,6 +46,11 @@ module.exports = {
               use: [
                   "file-loader",
               ]
+          },
+          {
+            test: /\.(js|jsx)$/,
+            exclude: /node_modules/,
+            use: ['babel-loader']
           }
       ],
   },
