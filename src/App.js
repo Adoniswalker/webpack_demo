@@ -5,6 +5,7 @@ import FormContainer from './js/components/container/FormContainer';
 import Posts from "./js/components/container/Home";
 import store from "./js/store";
 import { Provider } from "react-redux";
+import Hook from "./js/components/container/Hooks";
 
 const App = () => {
   return (
@@ -14,7 +15,7 @@ const App = () => {
           <div>
             <Switch>
               <Route path="/form">
-                  <FormContainer/>
+                  <Hook/>
               </Route>
               <Route exact path="/">
                   <Posts/>
